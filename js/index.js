@@ -46,7 +46,7 @@ const displayCategories = (categoriesArray) => {
     categoriesArray.forEach(item => {
         // create a button
         const button = document.createElement('button');
-        button.classList = 'btn';
+        button.classList = 'btn btn-md';
         button.innerText = item.category;
 
         // add button to categoryContainer
@@ -66,15 +66,22 @@ const displayVideos = (videosArray) => {
         const card = document.createElement('div');
         card.classList = 'card card-compact';
         card.innerHTML = `
-         <figure>
-            <img
+         <figure class ="h-[200px] rounded-md ">
+            <img class ="h-full w-full object-cover"
             src="${video.thumbnail}" />
         </figure>
-        <div class="card-body">
-        <h2 class="card-title">Shoes!</h2>
-        <p>If a dog chews shoes whose shoes does he choose?</p>
-        <div class="card-actions justify-end">
-            <button class="btn btn-primary">Show Details</button>
+        <div class="px-0 py-5 flex gap-3">
+            <div class ="w-10 h-10 ">
+                 <img class="w-full h-full rounded-full object-cover" src="${video.authors[0].profile_picture}"/> 
+            </div>
+            <div class ="space-y-2"> 
+                <h2 class= "text-base font-bold">${video.title} </h2>
+                <div class ="flex gap-2 items-center">
+                    <p class ="text-xs text-[rgba(23, 23, 23, 0.7)]">${video.authors[0].profile_name} </p>
+                    <img class ="w-5 h-5" src="https://img.icons8.com/?size=48&id=D9RtvkuOe31p&format=png"/>
+                </div>
+                <p class ="text-xs text-[rgba(23, 23, 23, 0.7)]">${video.others.views} views</p>
+            </div>
         </div>
         `;
 
