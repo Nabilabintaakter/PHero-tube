@@ -101,7 +101,9 @@ const displayVideos = (videosArray) => {
         `;
         return;
     }
-    videosContainer.classList.add('grid')
+    else{
+        videosContainer.classList.add('grid')
+    };
     videosArray.forEach((video) => {
         // create a card
         const card = document.createElement('div');
