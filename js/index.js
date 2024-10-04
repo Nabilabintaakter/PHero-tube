@@ -88,6 +88,20 @@ const displayVideos = (videosArray) => {
     const videosContainer = document.getElementById('videos');
     videosContainer.innerHTML = '';
 
+    if(videosArray.length === 0){
+        videosContainer.classList.remove('grid')
+        videosContainer.innerHTML = `
+            <div class ="flex justify-center items-center py-20">
+                <div class ="flex flex-col  items-center gap-5 ">
+                    <img class="w-24 h-24 md:w-36 md:h-36" src="./assets/Icon.png"/>
+                    <p class = "text-[#171717] text-xl md:text-2xl font-bold text-center w-3/4">Oops!! Sorry, There is no content here
+                    </p>
+                </div>
+            </div>
+        `;
+        return;
+    }
+    videosContainer.classList.add('grid')
     videosArray.forEach((video) => {
         // create a card
         const card = document.createElement('div');
