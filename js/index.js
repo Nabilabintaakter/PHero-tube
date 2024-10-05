@@ -21,14 +21,14 @@ const cardDemo = {
 }
 
 //-------------------------------------- create load categories------------------------------------------
-// categories loading.......................
+// load Categories.......................
 const loadCategories = () => {
     fetch('https://openapi.programming-hero.com/api/phero-tube/categories')
         .then(res => res.json())
         .then(data => displayCategories(data.categories))
         .catch(error => console.log(error))
 }
-// videos loading............................
+// load Videos............................
 const loadVideos = () => {
     fetch('https://openapi.programming-hero.com/api/phero-tube/videos')
         .then(res => res.json())
@@ -44,7 +44,7 @@ function removeActiveClass (){
         button.classList.remove('btn-error')
     }
 }
-// category wise video loading...............
+// load Category Videos...............
 const loadCategoryVideos = (id) => {
     fetch(`https://openapi.programming-hero.com/api/phero-tube/category/${id}`)
         .then(res => res.json())
@@ -60,6 +60,28 @@ const loadCategoryVideos = (id) => {
             displayVideos(data.category)
         })
         .catch(error => console.log(error))
+}
+// load description (async-await used here)
+const loadDescription = async (videoId) => {
+    console.log(videoId);
+    const uri= `https://openapi.programming-hero.com/api/phero-tube/video/${videoId}`;
+    const res = await fetch (uri);
+    const data = await res.json();
+    displayDescription(data.video);
+
+}
+const displayDescription = (video) => {
+    const detailsContainer = document.getElementById('modal-content');
+    document.getElementById('customModal').showModal();
+
+    detailsContainer.innerHTML = `
+    <div class="space-y-4">
+        <img class="w-full h-auto object-cover" src="${video.thumbnail}"/>
+        <h3 class="text-xl font-bold">${video.title}</h3>
+        <p class="text-justify">${video.description}</p>
+    </div>
+    `;
+
 }
 
 //------------------------------------- create display categories-----------------------------------------
@@ -140,17 +162,22 @@ const displayVideos = (videosArray) => {
             <div class ="w-10 h-10 ">
                  <img class="w-full h-full rounded-full object-cover" src="${video.authors[0].profile_picture}"/> 
             </div>
-            <div class ="space-y-2"> 
-                <h2 class= "text-base font-bold">${video.title} </h2>
+            <div class ="w-full "> 
+                <h2 class= "text-base font-bold mb-2">${video.title} </h2>
                 <div class ="flex gap-2 items-center">
                     <p class ="text-xs text-[rgba(23, 23, 23, 0.7)]">${video.authors[0].profile_name} </p>
 
                     ${video.authors[0].verified === true
-                ? `<img class ="w-5 h-5" src="https://img.icons8.com/?size=48&id=D9RtvkuOe31p&format=png"/>`
-                : ''
-            }  
+                        ? `<img class ="w-5 h-5" src="https://img.icons8.com/?size=48&id=D9RtvkuOe31p&format=png"/>`
+                        : ''
+                    }  
                 </div>
-                <p class ="text-xs text-[rgba(23, 23, 23, 0.7)]">${video.others.views} views</p>
+                <div class="flex justify-between items-center mt-0">
+                    <p class ="text-xs text-[rgba(23, 23, 23, 0.7)]">${video.others.views} views</p>
+                    <button onclick="loadDescription('${video.video_id}')" class ="btn btn-sm btn-error">
+                        Details
+                    </button>
+                </div>
             </div>
         </div>
         `;
