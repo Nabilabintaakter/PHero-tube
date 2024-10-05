@@ -37,10 +37,10 @@ const loadVideos = () => {
 }
 
 // remove active class from btn
-function removeActiveClass (){
+function removeActiveClass() {
     const buttons = document.getElementsByClassName('category-btn')
     console.log(buttons);
-    for(let button of buttons){
+    for (let button of buttons) {
         button.classList.remove('btn-error')
     }
 }
@@ -54,7 +54,7 @@ const loadCategoryVideos = (id) => {
             removeActiveClass();
 
             // id ke active class add koro
-            const activeBtn =document.getElementById(`btn-${id}`);
+            const activeBtn = document.getElementById(`btn-${id}`);
             // activeBtn.classList.remove('btn')
             activeBtn.classList.add('btn-error')
             displayVideos(data.category)
@@ -64,8 +64,8 @@ const loadCategoryVideos = (id) => {
 // load description (async-await used here)
 const loadDescription = async (videoId) => {
     console.log(videoId);
-    const uri= `https://openapi.programming-hero.com/api/phero-tube/video/${videoId}`;
-    const res = await fetch (uri);
+    const uri = `https://openapi.programming-hero.com/api/phero-tube/video/${videoId}`;
+    const res = await fetch(uri);
     const data = await res.json();
     displayDescription(data.video);
 
@@ -75,9 +75,24 @@ const displayDescription = (video) => {
     document.getElementById('customModal').showModal();
 
     detailsContainer.innerHTML = `
-    <div class="space-y-4">
-        <img class="w-full h-auto object-cover" src="${video.thumbnail}"/>
-        <h3 class="text-xl font-bold">${video.title}</h3>
+    <div class="">
+        <img class="w-full h-auto object-cover " src="${video.thumbnail}"/>
+        <div class="px-0 py-5 flex gap-3">
+            <div class ="w-10 h-10 ">
+                 <img class="w-full h-full rounded-full object-cover" src="${video.authors[0].profile_picture}"/> 
+            </div>
+            <div class ="w-full "> 
+                <h2 class= "text-base font-bold mb-2">${video.title} </h2>
+                <div class ="flex gap-2 items-center">
+                    <p class ="text-xs text-[rgba(23, 23, 23, 0.7)]">${video.authors[0].profile_name} </p>
+
+                    ${video.authors[0].verified === true
+            ? `<img class ="w-5 h-5" src="https://img.icons8.com/?size=48&id=D9RtvkuOe31p&format=png"/>`
+            : ''
+        }  
+                </div>
+            </div>
+        </div>
         <p class="text-justify">${video.description}</p>
     </div>
     `;
@@ -129,7 +144,7 @@ const displayVideos = (videosArray) => {
     const videosContainer = document.getElementById('videos');
     videosContainer.innerHTML = '';
 
-    if(videosArray.length === 0){
+    if (videosArray.length === 0) {
         videosContainer.classList.remove('grid')
         videosContainer.innerHTML = `
             <div class ="flex justify-center items-center py-20">
@@ -142,7 +157,7 @@ const displayVideos = (videosArray) => {
         `;
         return;
     }
-    else{
+    else {
         videosContainer.classList.add('grid')
     };
     videosArray.forEach((video) => {
@@ -168,9 +183,9 @@ const displayVideos = (videosArray) => {
                     <p class ="text-xs text-[rgba(23, 23, 23, 0.7)]">${video.authors[0].profile_name} </p>
 
                     ${video.authors[0].verified === true
-                        ? `<img class ="w-5 h-5" src="https://img.icons8.com/?size=48&id=D9RtvkuOe31p&format=png"/>`
-                        : ''
-                    }  
+                ? `<img class ="w-5 h-5" src="https://img.icons8.com/?size=48&id=D9RtvkuOe31p&format=png"/>`
+                : ''
+            }  
                 </div>
                 <div class="flex justify-between items-center mt-0">
                     <p class ="text-xs text-[rgba(23, 23, 23, 0.7)]">${video.others.views} views</p>
