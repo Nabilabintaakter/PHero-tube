@@ -29,8 +29,8 @@ const loadCategories = () => {
         .catch(error => console.log(error))
 }
 // load Videos............................
-const loadVideos = () => {
-    fetch('https://openapi.programming-hero.com/api/phero-tube/videos')
+const loadVideos = (searchText = "") => {
+    fetch(`https://openapi.programming-hero.com/api/phero-tube/videos?title=${searchText}`)
         .then(res => res.json())
         .then(data => displayVideos(data.videos))
         .catch(error => console.log(error))
@@ -63,7 +63,6 @@ const loadCategoryVideos = (id) => {
 }
 // load description (async-await used here)
 const loadDescription = async (videoId) => {
-    console.log(videoId);
     const uri = `https://openapi.programming-hero.com/api/phero-tube/video/${videoId}`;
     const res = await fetch(uri);
     const data = await res.json();
@@ -201,7 +200,9 @@ const displayVideos = (videosArray) => {
         videosContainer.append(card);
     })
 }
-
+document.getElementById('search-input').addEventListener('keyup', (event)=>{
+    loadVideos(event.target.value)
+})
 // function calling here
 loadCategories();
 loadVideos();
